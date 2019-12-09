@@ -9,7 +9,7 @@ var resultsSection = document.getElementById('list');
 var itemArray = [];
 var voteRounds = 25;
 var titleContainer = document.getElementById('titles');
-var chartContainer = document.getElementById('chart');
+var chartContainer = document.getElementById('chart-container');
 var clickNumber = 24;
 var clickedArray = [];
 var viewedArray = [];
@@ -32,7 +32,9 @@ function randomIndex(max) {
     return Math.floor(Math.random() * Math.floor(max));
 };
 
+//function that holds all items
 function createItemSet() {
+  //logic for local storage
     var storeThis = localStorage.getItem('box');
     if (storeThis) {
         itemArray = JSON.parse(storeThis);
@@ -60,6 +62,7 @@ function createItemSet() {
     }
 };
 
+//function to generate items
 function generateItems() {
     
     var indexOne = randomIndex(itemArray.length);
@@ -96,24 +99,18 @@ createItemSet();
 generateItems();
 productContainer.addEventListener('click', handleClick);
 
-function makeCVNArray() {
-    for (var i = 0; i < itemArray.length; i++) {
-      clickedArray.push(itemArray[i].clicked);
-      viewedArray.push(itemArray[i].viewed);
-      nameArray.push(itemArray[i].title);
-    }
-};
 
-//show element
+//function to show element
 function show(elem) {
-    elem.style.display = 'block';
-};
-    
-//hide element
-function hide(elem) {
-    elem.style.display = 'none';
+  elem.style.display = 'block';
 };
 
+//function to hide element
+function hide(elem) {
+  elem.style.display = 'none';
+};
+
+//function for results
 function analysis() {
     
     var ulEl = document.createElement('ul');
@@ -123,35 +120,48 @@ function analysis() {
         ulEl.appendChild(liEl);
     }
     resultsSection.appendChild(ulEl);
-};
-
-function handleClick(event) {
+  };
+  
+  //function to handle voting length
+  function handleClick(event) {
     voteRounds--;
     if(voteRounds === 0) {
-        productContainer.removeEventListener('click', handleClick);
-        console.log('Voting is finished!');
-        analysis();
-        hide(productContainer);
+      productContainer.removeEventListener('click', handleClick);
+      console.log('Voting is finished!');
+      analysis();
+      hide(productContainer);
     } else {
-        console.log(event.target.title);
-        var vote = event.target.title;
-        console.log(vote, ' was clicked');
-        for (var i = 0; i < itemArray.length; i++) {
-            if (vote === itemArray[i].title) {
-                itemArray[i].clicked++;
-            }
-        } clickNumber--;
-        if (clickNumber === 0) {
-            hide(productContainer);
-            show(myChart);
-            makeCVNArray(itemArray);
-            localStorage.setItem('box', JSON.stringify(itemArray));
-        } 
-        generateItems();
+      console.log(event.target.title);
+      var vote = event.target.title;
+      console.log(vote, ' was clicked');
+      for (var i = 0; i < itemArray.length; i++) {
+        if (vote === itemArray[i].title) {
+          itemArray[i].clicked++;
+        }
+      } clickNumber--;
+      if (clickNumber === 0) {
+        hide('product-container');
+        show('chart-container');
+        makeCVNArray(itemArray);
+        makeChart();
+        //more logic for local storage
+        localStorage.setItem('box', JSON.stringify(itemArray));
+      } 
+      generateItems();
     }
-};
+  };
+  
+  //function for making array for clicks, views, and names
+  function makeCVNArray() {
+      for (var i = 0; i < itemArray.length; i++) {
+        clickedArray.push(itemArray[i].clicked);
+        viewedArray.push(itemArray[i].viewed);
+        nameArray.push(itemArray[i].title);
+      }
+  };
 
-function makeChart() {
+  //function to make chart
+  function makeChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
       type: 'bar',
@@ -162,58 +172,58 @@ function makeChart() {
             label: 'Number of Clicks',
             data: clickedArray,
             backgroundColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)'
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)'
             ],
             borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 99, 132, 1)'
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)',
+              'rgba(38, 4, 61, 1)'
             ],
             borderWidth: 2.5
           },
