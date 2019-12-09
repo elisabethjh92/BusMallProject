@@ -14,6 +14,9 @@ var clickNumber = 24;
 var clickedArray = [];
 var viewedArray = [];
 var nameArray = [];
+var noRepeatIndex = [];
+var items = [itemOne, itemTwo, itemThree];
+var itemNames = [itemOneName, itemTwoName, itemThreeName];
 
 
 //constructor
@@ -61,6 +64,22 @@ function createItemSet() {
     new Item ('wine-glass', 'Impossible Wine Glass');
     }
 };
+//function for no repeats
+function noRepeats() {
+  while (noRepeatIndex.length < 6) {
+    var random = randomIndex(itemArray.length);
+
+    if(noRepeatIndex.includes(random)) {
+      noRepeatIndex.push(random);
+    }
+  }
+};
+
+//function to remove 3 items from array
+function removeThree() {
+
+};
+
 
 //function to generate items
 function generateItems() {
@@ -116,7 +135,7 @@ function analysis() {
     var ulEl = document.createElement('ul');
     for (var i = 0; i < itemArray.length; i++) {
         var liEl = document.createElement('li');
-        liEl.textContent = `${itemArray[i].title}: ${itemArray[i].clicked} clicks & ${itemArray[i].viewed} views`
+        liEl.textContent = `${itemArray[i].title}: ${itemArray[i].clicked} clicks & ${itemArray[i].viewed} views`;
         ulEl.appendChild(liEl);
     }
     resultsSection.appendChild(ulEl);
@@ -140,8 +159,8 @@ function analysis() {
         }
       } clickNumber--;
       if (clickNumber === 0) {
-        hide('product-container');
-        show('chart-container');
+        hide(productContainer);
+        show(chartContainer);
         makeCVNArray(itemArray);
         makeChart();
         //more logic for local storage
