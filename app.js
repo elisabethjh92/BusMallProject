@@ -9,7 +9,7 @@ var resultsSection = document.getElementById('list');
 var itemArray = [];
 var voteRounds = 25;
 var titleContainer = document.getElementById('titles');
-var chartContainer = document.getElementById('chart');
+var chartContainer = document.getElementById('chart-container');
 var clickNumber = 24;
 var clickedArray = [];
 var viewedArray = [];
@@ -96,22 +96,15 @@ createItemSet();
 generateItems();
 productContainer.addEventListener('click', handleClick);
 
-function makeCVNArray() {
-    for (var i = 0; i < itemArray.length; i++) {
-      clickedArray.push(itemArray[i].clicked);
-      viewedArray.push(itemArray[i].viewed);
-      nameArray.push(itemArray[i].title);
-    }
-};
 
 //show element
 function show(elem) {
-    elem.style.display = 'block';
+  elem.style.display = 'block';
 };
-    
+
 //hide element
 function hide(elem) {
-    elem.style.display = 'none';
+  elem.style.display = 'none';
 };
 
 function analysis() {
@@ -123,35 +116,44 @@ function analysis() {
         ulEl.appendChild(liEl);
     }
     resultsSection.appendChild(ulEl);
-};
-
-function handleClick(event) {
+  };
+  
+  function handleClick(event) {
     voteRounds--;
     if(voteRounds === 0) {
-        productContainer.removeEventListener('click', handleClick);
-        console.log('Voting is finished!');
-        analysis();
-        hide(productContainer);
+      productContainer.removeEventListener('click', handleClick);
+      console.log('Voting is finished!');
+      analysis();
+      hide(productContainer);
     } else {
-        console.log(event.target.title);
-        var vote = event.target.title;
-        console.log(vote, ' was clicked');
-        for (var i = 0; i < itemArray.length; i++) {
-            if (vote === itemArray[i].title) {
-                itemArray[i].clicked++;
-            }
-        } clickNumber--;
-        if (clickNumber === 0) {
-            hide(productContainer);
-            show(myChart);
-            makeCVNArray(itemArray);
-            localStorage.setItem('box', JSON.stringify(itemArray));
-        } 
-        generateItems();
+      console.log(event.target.title);
+      var vote = event.target.title;
+      console.log(vote, ' was clicked');
+      for (var i = 0; i < itemArray.length; i++) {
+        if (vote === itemArray[i].title) {
+          itemArray[i].clicked++;
+        }
+      } clickNumber--;
+      if (clickNumber === 0) {
+        hide('product-container');
+        show('chart-container');
+        makeCVNArray(itemArray);
+        makeChart();
+        localStorage.setItem('box', JSON.stringify(itemArray));
+      } 
+      generateItems();
     }
-};
+  };
+  
+  function makeCVNArray() {
+      for (var i = 0; i < itemArray.length; i++) {
+        clickedArray.push(itemArray[i].clicked);
+        viewedArray.push(itemArray[i].viewed);
+        nameArray.push(itemArray[i].title);
+      }
+  };
 
-function makeChart() {
+  function makeChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
       type: 'bar',
