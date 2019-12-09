@@ -14,6 +14,9 @@ var clickNumber = 24;
 var clickedArray = [];
 var viewedArray = [];
 var nameArray = [];
+var noRepeatIndex = [];
+var items = [itemOne, itemTwo, itemThree];
+var itemNames = [itemOneName, itemTwoName, itemThreeName];
 
 
 //constructor
@@ -61,6 +64,22 @@ function createItemSet() {
     new Item ('wine-glass', 'Impossible Wine Glass');
     }
 };
+//function for no repeats
+function noRepeats() {
+  while (noRepeatIndex.length < 6) {
+    var random = randomIndex(itemArray.length);
+
+    if(noRepeatIndex.includes(random)) {
+      noRepeatIndex.push(random);
+    }
+  }
+};
+
+//function to remove 3 items from array
+function removeThree() {
+
+};
+
 
 //function to generate items
 function generateItems() {
