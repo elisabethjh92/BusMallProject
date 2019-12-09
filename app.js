@@ -116,7 +116,7 @@ function analysis() {
     var ulEl = document.createElement('ul');
     for (var i = 0; i < itemArray.length; i++) {
         var liEl = document.createElement('li');
-        liEl.textContent = `${itemArray[i].title}: ${itemArray[i].clicked} clicks & ${itemArray[i].viewed} views`
+        liEl.textContent = `${itemArray[i].title}: ${itemArray[i].clicked} clicks & ${itemArray[i].viewed} views`;
         ulEl.appendChild(liEl);
     }
     resultsSection.appendChild(ulEl);
@@ -140,8 +140,8 @@ function analysis() {
         }
       } clickNumber--;
       if (clickNumber === 0) {
-        hide('product-container');
-        show('chart-container');
+        hide(productContainer);
+        show(chartContainer);
         makeCVNArray(itemArray);
         makeChart();
         //more logic for local storage
