@@ -32,7 +32,9 @@ function randomIndex(max) {
     return Math.floor(Math.random() * Math.floor(max));
 };
 
+//function that holds all items
 function createItemSet() {
+  //logic for local storage
     var storeThis = localStorage.getItem('box');
     if (storeThis) {
         itemArray = JSON.parse(storeThis);
@@ -60,6 +62,7 @@ function createItemSet() {
     }
 };
 
+//function to generate items
 function generateItems() {
     
     var indexOne = randomIndex(itemArray.length);
@@ -97,16 +100,17 @@ generateItems();
 productContainer.addEventListener('click', handleClick);
 
 
-//show element
+//function to show element
 function show(elem) {
   elem.style.display = 'block';
 };
 
-//hide element
+//function to hide element
 function hide(elem) {
   elem.style.display = 'none';
 };
 
+//function for results
 function analysis() {
     
     var ulEl = document.createElement('ul');
@@ -118,6 +122,7 @@ function analysis() {
     resultsSection.appendChild(ulEl);
   };
   
+  //function to handle voting length
   function handleClick(event) {
     voteRounds--;
     if(voteRounds === 0) {
@@ -139,12 +144,14 @@ function analysis() {
         show('chart-container');
         makeCVNArray(itemArray);
         makeChart();
+        //more logic for local storage
         localStorage.setItem('box', JSON.stringify(itemArray));
       } 
       generateItems();
     }
   };
   
+  //function for making array for clicks, views, and names
   function makeCVNArray() {
       for (var i = 0; i < itemArray.length; i++) {
         clickedArray.push(itemArray[i].clicked);
@@ -153,6 +160,7 @@ function analysis() {
       }
   };
 
+  //function to make chart
   function makeChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
